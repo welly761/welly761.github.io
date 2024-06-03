@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background-color: pink;
+      }
+    </style>
+  </head>
+  <body>
+    <form method="POST" name="formulario" id="wellyson-lindo">
+      <fieldset>
+        <legend>formulario de cadastro</legend>
+        <div>
+          <label for="idNome">
+            Nome:
+            <input
+              type="text"
+              name="nome"
+              id="idNome"
+              placeholder="Informe seu nome"
+              size="40"
+            />
+          </label>
+        </div>
+        <div>
+          <label for="iddata"
+            >Data de nascimento:
+            <input type="date" name="data" id="iddata" />
+          </label>
+        </div>
+        <div>
+          <label for="idEmail">
+            Email:
+            <input
+              type="text"
+              name="email"
+              id="idEmail"
+              required
+              placeholder="Informe seu email"
+              minlength="5"
+              maxlength="40"
+              size="40"
+            />
+          </label>
+        </div>
+        <div>
+          <label for="idTele"
+            >Telefone:
+            <input
+              type="text"
+              name="telefome"
+              id="idTele"
+              inputmode="numeric"
+              pattern="\(\d{2})\ \d{5}\-\d{4}"
+              title="Coloque no minimo 4 caracteres e no maximo 15"
+              size="37"
+            />
+          </label>
+        </div>
+        <div>
+          <label for="listCor"
+            >Cor:
+            <select name="cor da pele" id="listCor">
+              <option value="preto">preto</option>
+              <option value="branco">branco</option>
+              <option value="pardo">pardo</option>
+              <option value="indigena">vermelho</option>
+              <option value="amarelo">amarelo</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label for="idSenha"
+            >Senha:
+            <input type="password" name="senha" autocomplete="new-password" />
+          </label>
+        </div>
+
+        <script type="module">
+          // Import the functions you need from the SDKs you need
+
+          import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+
+          import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
+
+          // TODO: Add SDKs for Firebase products that you want to use
+
+          // https://firebase.google.com/docs/web/setup#available-libraries
+
+          // Your web app's Firebase configuration
+
+          // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+          const firebaseConfig = {
+            apiKey: "AIzaSyBuTktoYVQPeOfzJE2dwlNwoFeqoThGAbI",
+
+            authDomain: "wellyson-lindo.firebaseapp.com",
+
+            projectId: "wellyson-lindo",
+
+            storageBucket: "wellyson-lindo.appspot.com",
+
+            messagingSenderId: "95827221123",
+
+            appId: "1:95827221123:web:1359126f473019177159b6",
+
+            measurementId: "G-8T27M6NWFB",
+          };
+
+          // Initialize Firebase
+
+          const app = initializeApp(firebaseConfig);
+
+          const analytics = getAnalytics(app);
+
+          const database = getDatabase();
+
+          // Capture o formulário
+          let form = document.getElementById("formulario");
+          form.addEventListener("submit", (e) => {
+            e.preventDefault(); // Evita o envio padrão do formulário
+
+            // Capture os valores do formulário
+            const nome = form["nome"].value;
+            const email = form["email"].value;
+            const cor_pele = form["cor_pele"].value;
+            const telefone = form["telefone"].value;
+            const senha = form["senha"].value;
+            const data = form["data"].value;
+
+            // Enviar os dados para o Firebase
+            const usersRef = ref(database, "users");
+            push(usersRef, {
+              nome: nome,
+              email: email,
+              cor_pele: cor_pele,
+              telefone: telefone,
+              senha: senha,
+              data: data,
+            })
+              .then(() => {
+                console.log("Dados enviados com sucesso!");
+                // Faça qualquer ação adicional aqui, como redirecionar o usuário ou exibir uma mensagem de sucesso.
+              })
+              .catch((error) => {
+                console.error("Erro ao enviar dados:", error);
+              });
+          });
+        </script>
+        <div>
+          <button type="submit">Enviar</button>
+        </div>
+      </fieldset>
+    </form>
+  </body>
+</html>
